@@ -1,0 +1,17 @@
+name: Add UiPath Workflows automatically using Filter
+
+on:
+  repository_dispatch:
+    types: [created]
+
+jobs:
+  copy-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check repository name
+        if: ${{ startsWith(github.event.repository.name, 'uipath-') }}  # Example condition
+        run: |
+          cp .github/workflow-templates/test.yml ${{ github.event.repository.full_name }}/.github/workflows/test.yml
