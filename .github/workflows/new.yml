@@ -1,0 +1,16 @@
+name: Add Workflows on Repo Creation
+
+on:
+  repository_dispatch:
+    types: [created]
+
+jobs:
+  copy-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Copy workflows
+        run: |
+          cp -r .github/workflow-templates/.github/workflows ${{ github.event.repository.full_name }}/.github/workflows
